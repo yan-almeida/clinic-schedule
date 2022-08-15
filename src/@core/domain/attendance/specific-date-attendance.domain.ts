@@ -1,8 +1,7 @@
+import { Attendance } from '@core/domain/attendance/attendance.domain';
+import { DateCannotBeforeToday } from '@core/domain/attendance/errors/date-cannot-before-today.error';
+import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
 import { isBefore } from 'date-fns';
-import { AttendanceType } from './attendance-type.enum';
-import { Attendance } from './attendance.domain';
-import { DateCannotBeforeToday } from './errors/date-cannot-before-today.error';
-import { Interval } from './interval.domain';
 
 export class SpecificDateAttendance extends Attendance {
   #date: Date;

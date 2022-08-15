@@ -1,6 +1,5 @@
+import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
 import { randomUUID } from 'crypto';
-import { AttendanceType } from './attendance-type.enum';
-import { Interval } from './interval.domain';
 
 export abstract class Attendance {
   #id: string;

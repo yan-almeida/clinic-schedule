@@ -1,5 +1,5 @@
-import { AttendanceType } from '@core/domain/attendance/attendance-type.enum';
 import { DateCannotBeforeToday } from '@core/domain/attendance/errors/date-cannot-before-today.error';
+import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
 import { Interval } from '@core/domain/attendance/interval.domain';
 import { IntervalMock } from '@core/domain/attendance/mocks/interval.mock';
 import { SpecificDateAttendance } from '@core/domain/attendance/specific-date-attendance.domain';

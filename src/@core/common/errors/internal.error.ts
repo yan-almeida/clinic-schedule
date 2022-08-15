@@ -1,7 +1,9 @@
+import HttpStatus from 'http-status-codes';
+
 export class InternalError extends Error {
   constructor(
     public message: string,
-    protected code: number = 500,
+    protected code: number = HttpStatus.UNPROCESSABLE_ENTITY,
     protected description?: string,
   ) {
     super(message);

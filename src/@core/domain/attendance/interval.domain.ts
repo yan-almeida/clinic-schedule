@@ -1,5 +1,5 @@
+import { DateIntervalError } from '@core/domain/attendance/errors/date-interval.error';
 import { isAfter } from 'date-fns';
-import { DateIntervalError } from './errors/date-interval.error';
 
 export class Interval {
   #start: Date;

@@ -1,8 +1,7 @@
-import { DaysOfWeek } from '@core/domain/attendance/days-of-week.enum';
+import { Attendance } from '@core/domain/attendance/attendance.domain';
 import { WithoutDayOfWeek } from '@core/domain/attendance/errors/whitout-day-of-week.error';
-import { AttendanceType } from './attendance-type.enum';
-import { Attendance } from './attendance.domain';
-import { Interval } from './interval.domain';
+import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
+import { DaysOfWeek } from '@core/domain/attendance/interfaces/days-of-week.enum';
 
 export class WeeklyAttendance extends Attendance {
   #daysOfWeek: DaysOfWeek[];

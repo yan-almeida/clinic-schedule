@@ -1,6 +1,6 @@
-import { AttendanceType } from '@core/domain/attendance/attendance-type.enum';
-import { DaysOfWeek } from '@core/domain/attendance/days-of-week.enum';
 import { WithoutDayOfWeek } from '@core/domain/attendance/errors/whitout-day-of-week.error';
+import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
+import { DaysOfWeek } from '@core/domain/attendance/interfaces/days-of-week.enum';
 import { Interval } from '@core/domain/attendance/interval.domain';
 import { IntervalMock } from '@core/domain/attendance/mocks/interval.mock';
 import { WeeklyAttendance } from '@core/domain/attendance/weekly-attendance.domain';
