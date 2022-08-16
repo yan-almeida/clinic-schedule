@@ -2,9 +2,9 @@ import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-ty
 import { DaysOfWeek } from '@core/domain/attendance/interfaces/days-of-week.enum';
 
 export interface CreateAttendanceRuleDto {
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
   type: AttendanceType;
-  daysOfWeek?: Array<DaysOfWeek>;
+  daysOfWeek: [DaysOfWeek];
   date?: Date;
 }

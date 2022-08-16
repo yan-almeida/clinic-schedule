@@ -16,23 +16,23 @@ export class AttendanceRulesService {
   async create(dto: CreateAttendanceRuleDto): Promise<string> {
     const { start, end, type, date, daysOfWeek } = dto;
 
-    const interval = Interval.from(new Date(start), new Date(end));
+    const interval = Interval.from(start, end);
 
     const createAttendanceFactory = new CreateAttendanceFactory();
     const createAttendanceStrategy = createAttendanceFactory.build(type);
 
-    const createdAttendance = await createAttendanceStrategy.create({
+    const attendance = await createAttendanceStrategy.create({
       interval,
       date,
       daysOfWeek,
     });
 
-    await this.attendanceRepository.insert(createdAttendance);
+    await this.attendanceRepository.insert(attendance);
 
-    return createdAttendance.id;
+    return attendance.id;
   }
 
   findAll() {
-    return;
+    return this.attendanceRepository.findAll();
   }
 }

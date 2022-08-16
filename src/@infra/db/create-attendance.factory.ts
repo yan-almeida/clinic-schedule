@@ -1,10 +1,10 @@
-import { CreateSpecificAttendance } from '@app/modules/attendance-rule/strategies/create-specific-day-attendance.strategy';
-import { DailyAttendance } from '@core/domain/attendance/daily-attendance.domain';
+import { Attendance } from '@core/domain/attendance/attendance.domain';
 import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
 import { DaysOfWeek } from '@core/domain/attendance/interfaces/days-of-week.enum';
-import { SpecificDateAttendance } from '@core/domain/attendance/specific-date-attendance.domain';
-import { WeeklyAttendance } from '@core/domain/attendance/weekly-attendance.domain';
-import { LocalAttendanceRepository } from '@infra/db/attendance.repository';
+import { Interval } from '@core/domain/attendance/interval.domain';
+import { CreateDailyAttendance } from '@infra/db/strategies/create-daily-attendance.strategy';
+import { CreateSpecificAttendance } from '@infra/db/strategies/create-specific-day-attendance.strategy';
+import { CreateWeeklyAttendance } from '@infra/db/strategies/create-weekly-attendance.strategy';
 
 export interface Type<T = any> extends Function {
   new (...args: any[]): T;
@@ -12,14 +12,12 @@ export interface Type<T = any> extends Function {
 
 export interface CreateAttendanceRule {
   interval: Interval;
-  daysOfWeek?: Array<DaysOfWeek>;
+  daysOfWeek: [DaysOfWeek];
   date?: Date;
 }
 
 export interface CreateAttendanceStrategy {
-  create(
-    createAttendanceRule: CreateAttendanceRule,
-  ): Promise<SpecificDateAttendance | DailyAttendance | WeeklyAttendance>;
+  create(createAttendanceRule: CreateAttendanceRule): Promise<Attendance>;
 }
 
 export type AttendanceFactory = Record<
@@ -27,22 +25,20 @@ export type AttendanceFactory = Record<
   Type<CreateAttendanceStrategy>
 >;
 
-const localAttendanceRepository = new LocalAttendanceRepository();
-
 export class CreateAttendanceFactory {
   #attendanceFactory: AttendanceFactory = {
-    daily: CreateSpecificAttendance,
+    daily: CreateDailyAttendance,
     specificDate: CreateSpecificAttendance,
-    weekly: CreateSpecificAttendance,
+    weekly: CreateWeeklyAttendance,
   };
 
   build(attendanceType: AttendanceType) {
-    const attendanceStrategy = this.#attendanceFactory[attendanceType];
+    const AttendanceStrategy = this.#attendanceFactory[attendanceType];
 
-    if (!attendanceStrategy) {
+    if (!AttendanceStrategy) {
       throw new Error('Strategy not found!');
     }
 
-    return new attendanceStrategy(localAttendanceRepository);
+    return new AttendanceStrategy();
   }
 }

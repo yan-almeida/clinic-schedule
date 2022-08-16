@@ -1,5 +1,5 @@
-import ApiError from '@infra/adapters/presentation/controllers/controller.error';
-import { Logger } from '@utils/logger';
+import ApiError from '@app/adapters/presentation/controllers/controller.error';
+import { Logger } from '@core/utils/logger';
 import { NextFunction, Request, Response } from 'express';
 
 export interface HTTPError extends Error {

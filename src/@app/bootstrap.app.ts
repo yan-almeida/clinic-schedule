@@ -1,22 +1,11 @@
+import { ControllerErrorValidator } from '@app/adapters/presentation/controllers/controller-error.validator';
 import attendanceRuleRouter from '@app/modules/attendance-rule/factories/register-controller.factory';
-import { InternalError } from '@core/common/errors/internal.error';
-import { ControllerErrorValidator } from '@infra/adapters/presentation/controllers/controller-error.validator';
-import { Logger } from '@utils/logger';
+import { Logger } from '@core/utils/logger';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { Express, NextFunction, Request, Response } from 'express';
+import { Express } from 'express';
 import * as expressWinston from 'express-winston';
 import * as http from 'http';
-
-class ErrorHandler {
-  public isTrustedError(error: Error) {
-    if (error instanceof InternalError) {
-      return error;
-    }
-
-    return false;
-  }
-}
 
 export enum ExitStatus {
   Failure = 1,
@@ -66,16 +55,6 @@ export class BootstrapApp {
   }
 
   #setupErrorHandlers(): void {
-    this.app.use(
-      async (err: Error, req: Request, res: Response, next: NextFunction) => {
-        const errorHandler = new ErrorHandler();
-
-        if (!errorHandler.isTrustedError(err)) {
-          next(err);
-        }
-      },
-    );
-
     this.app.use(ControllerErrorValidator);
   }
 

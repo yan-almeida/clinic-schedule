@@ -11,9 +11,9 @@ export class ClinicScheduleController {
   async create(req: Request, res: Response) {
     const dto: CreateAttendanceRuleDto = req.body;
 
-    const hello = await this.attendanceRulesService.create(dto);
+    const attendance = await this.attendanceRulesService.create(dto);
 
-    res.status(httpStatus.CREATED).json(hello);
+    res.status(httpStatus.CREATED).json({ attendance });
   }
 
   async findAll(_: Request, res: Response) {

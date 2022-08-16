@@ -17,4 +17,8 @@ attendanceRuleRouter.post('', (req, res) =>
   clinicScheduleController.create(req, res),
 );
 
+attendanceRuleRouter.get('', (req, res) =>
+  clinicScheduleController.findAll(req, res),
+);
+
 export default attendanceRuleRouter;
