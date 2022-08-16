@@ -10,6 +10,7 @@ module.exports = {
   preset: 'ts-jest',
   moduleNameMapper: {
     '@core/(.*)': '<rootDir>/src/@core/$1',
+    '@app/(.*)': '<rootDir>/src/@app/$1',
     '@infra/(.*)': '<rootDir>/src/@infra/$1',
     '@test/(.*)': '<rootDir>/test/$1',
   },

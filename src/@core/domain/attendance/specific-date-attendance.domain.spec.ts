@@ -17,7 +17,7 @@ describe('SpecificDateAttendance', () => {
     );
 
     expect(specificDayAttendance.date).toEqual(tomorrowDate);
-    expect(specificDayAttendance.type).toEqual(AttendanceType.SPECIFIC_DAY);
+    expect(specificDayAttendance.type).toEqual(AttendanceType.SPECIFIC_DATE);
     expect(specificDayAttendance.interval).toBeInstanceOf(Interval);
   });
 
@@ -32,7 +32,7 @@ describe('SpecificDateAttendance', () => {
     );
 
     expect(specificDayAttendance.date).toEqual(tomorrowDate);
-    expect(specificDayAttendance.type).toEqual(AttendanceType.SPECIFIC_DAY);
+    expect(specificDayAttendance.type).toEqual(AttendanceType.SPECIFIC_DATE);
     expect(specificDayAttendance.interval).toBeInstanceOf(Interval);
   });
 

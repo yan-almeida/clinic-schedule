@@ -1,4 +1,5 @@
 import ApiError from '@infra/adapters/presentation/controllers/controller.error';
+import { Logger } from '@utils/logger';
 import { NextFunction, Request, Response } from 'express';
 
 export interface HTTPError extends Error {
@@ -11,8 +12,15 @@ export function ControllerErrorValidator(
   res: Response,
   __: NextFunction,
 ): void {
+  const logger = new Logger(ControllerErrorValidator.name);
   const errorCode = error.status || 500;
-  res
-    .status(errorCode)
-    .json(ApiError.format({ code: errorCode, message: error.message }));
+
+  const apiError = ApiError.format({
+    code: errorCode,
+    message: error.message,
+  });
+
+  logger.error(error);
+
+  res.status(errorCode).json(apiError);
 }

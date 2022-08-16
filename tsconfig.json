@@ -27,6 +27,12 @@
       "@infra/*": [
         "./src/@infra/*"
       ],
+      "@app/*": [
+        "./src/@app/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
       "@test/*": [
         "./test/*"
       ]

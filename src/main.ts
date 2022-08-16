@@ -1,31 +1,49 @@
-import bodyParser from 'body-parser';
-import cors from 'cors';
 import dotenv from 'dotenv';
-import express, { Express, Request, Response } from 'express';
-import expressPino from 'express-pino-logger';
-import logger from './loggers/app.logger';
+import express, { Express } from 'express';
 import './utils/module-alias.util';
+
+import { BootstrapApp, ExitStatus } from '@app/bootstrap.app';
+import { Logger } from '@utils/logger';
+import config from 'config';
 
 dotenv.config();
 
-const app: Express = express();
-const port = process.env.PORT;
+process.on('unhandledRejection', (reason, promise) => {
+  const logger = new Logger('unhandledRejection');
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+  logger.error(
+    `App exiting due to an unhandled promise: ${JSON.stringify(
+      promise,
+    )} and reason: ${reason}`,
+  );
+
+  throw reason;
 });
 
-app.use(bodyParser.json());
-app.use(
-  expressPino({
-    logger,
-  }),
-);
-app.use(
-  cors({
-    origin: '*',
-  }),
-);
-app.listen(port, () => {
-  logger.info(`⚡️[server]: Server is running at https://localhost:${port}`);
+process.on('uncaughtException', (error) => {
+  const logger = new Logger('uncaughtException');
+
+  logger.error(`App exiting due to an uncaught exception: ${error}`);
+
+  process.exit(ExitStatus.Failure);
 });
+
+const main = async (): Promise<void> => {
+  const logger = new Logger(main.name);
+
+  try {
+    const app: Express = express();
+    const port = config.get<number>('app.port');
+
+    const server = new BootstrapApp(app, port);
+
+    await server.init();
+    server.start();
+    server.safeExit();
+  } catch (error) {
+    logger.error(`App exited with error: ${error}`);
+    process.exit(ExitStatus.Failure);
+  }
+};
+
+main();

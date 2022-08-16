@@ -7,7 +7,7 @@ export class SpecificDateAttendance extends Attendance {
   #date: Date;
 
   constructor(date: Date, interval: Interval) {
-    super(AttendanceType.SPECIFIC_DAY, interval);
+    super(AttendanceType.SPECIFIC_DATE, interval);
 
     this.#date = date;
   }

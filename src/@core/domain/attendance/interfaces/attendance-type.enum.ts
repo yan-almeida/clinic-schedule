@@ -1,5 +1,5 @@
 export enum AttendanceType {
-  SPECIFIC_DAY = 'specificDay',
+  SPECIFIC_DATE = 'specificDate',
   DAILY = 'daily',
   WEEKLY = 'weekly',
 }
