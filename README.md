@@ -1,8 +1,8 @@
 
 ## Check postman collection
 > Postman collection is [here!](./docs/Clinical-Attendance.postman_collection.json)
-<br/>
-> Check how can you import/export collection data to [Postman](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/)!
+>
+> [Check how can you import/export collection data to Postman](https://learning.postman.com/docs/getting-started/importing-and-exporting-data)
 
 ---
 
