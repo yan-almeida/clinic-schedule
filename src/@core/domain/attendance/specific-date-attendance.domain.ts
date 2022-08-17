@@ -1,8 +1,9 @@
+import { AttendanceDay } from '@core/domain/attendance/attendance-day.domain';
 import { Attendance } from '@core/domain/attendance/attendance.domain';
 import { DateCannotBeforeToday } from '@core/domain/attendance/errors/date-cannot-before-today.error';
 import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
 import { Interval } from '@core/domain/attendance/interval.domain';
-import { isBefore } from 'date-fns';
+import { format, isBefore } from 'date-fns';
 
 export class SpecificDateAttendance extends Attendance {
   date: Date;
@@ -21,5 +22,19 @@ export class SpecificDateAttendance extends Attendance {
     }
 
     return new SpecificDateAttendance(date, interval);
+  }
+
+  asAttendanceDay(day: Date): AttendanceDay | undefined {
+    const actualDay = format(day, 'MM-dd-yyyy');
+    const specificDate = format(this.date, 'MM-dd-yyyy');
+
+    if (actualDay !== specificDate) {
+      return;
+    }
+
+    return {
+      day: format(day, 'MM-dd-yyyy'),
+      interval: this.interval,
+    };
   }
 }

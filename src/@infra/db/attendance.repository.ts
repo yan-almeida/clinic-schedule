@@ -1,6 +1,5 @@
 import { Attendance } from '@core/domain/attendance/attendance.domain';
 import { AttendanceRepository } from '@core/domain/attendance/repositories/attendance.repository';
-import { SpecificDateAttendance } from '@core/domain/attendance/specific-date-attendance.domain';
 import { readFile, writeFile } from 'fs/promises';
 
 const PATH = 'database.json';
@@ -16,7 +15,7 @@ export class LocalAttendanceRepository implements AttendanceRepository {
     throw new Error('Method not implemented.');
   }
 
-  async findAll(): Promise<SpecificDateAttendance[]> {
+  async findAll(): Promise<Attendance[]> {
     const buffer = await readFile(PATH, {
       encoding: 'utf-8',
     });

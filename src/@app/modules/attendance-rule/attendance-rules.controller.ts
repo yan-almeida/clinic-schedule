@@ -21,4 +21,16 @@ export class ClinicScheduleController {
 
     res.status(httpStatus.OK).json(attendanceRules);
   }
+
+  async findAvailableTimes(req: Request<any, any, any, any>, res: Response) {
+    const { from, to } = req.query;
+
+    const attendanceRules =
+      await this.attendanceRulesService.findAvailableTimes(
+        new Date(from),
+        new Date(to),
+      );
+
+    res.status(httpStatus.OK).json(attendanceRules);
+  }
 }

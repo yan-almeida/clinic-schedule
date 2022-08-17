@@ -21,4 +21,8 @@ attendanceRuleRouter.get('', (req, res) =>
   clinicScheduleController.findAll(req, res),
 );
 
+attendanceRuleRouter.get('/available-times', (req, res) =>
+  clinicScheduleController.findAvailableTimes(req, res),
+);
+
 export default attendanceRuleRouter;
