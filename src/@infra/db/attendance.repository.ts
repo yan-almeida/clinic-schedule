@@ -11,8 +11,13 @@ export class LocalAttendanceRepository implements AttendanceRepository {
     await writeFile(PATH, JSON.stringify([...attendances, attendance]));
   }
 
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async delete(id: string): Promise<void> {
+    const attendances = await this.findAll();
+    const newAttendances = attendances.filter(
+      (attendance) => attendance.id !== id,
+    );
+
+    await writeFile(PATH, JSON.stringify(newAttendances));
   }
 
   async findAll(): Promise<Attendance[]> {

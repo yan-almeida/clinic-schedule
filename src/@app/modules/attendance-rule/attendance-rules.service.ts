@@ -1,5 +1,7 @@
+import { AvailableTimeDto } from '@app/modules/attendance-rule/dtos/available-time.dto';
 import { CreateAttendanceRuleDto } from '@app/modules/attendance-rule/dtos/create-attendance-rule.dto';
 import { AttendanceDay } from '@core/domain/attendance/attendance-day.domain';
+import { Attendance } from '@core/domain/attendance/attendance.domain';
 import { Interval } from '@core/domain/attendance/interval.domain';
 import { AttendanceRepository } from '@core/domain/attendance/repositories/attendance.repository';
 import { CreateAttendanceFactory } from '@infra/db/create-attendance.factory';
@@ -29,11 +31,15 @@ export class AttendanceRulesService {
     return attendance.id;
   }
 
-  findAll() {
+  findAll(): Promise<Attendance[]> {
     return this.attendanceRepository.findAll();
   }
 
-  async findAvailableTimes(from: Date, to: Date) {
+  async delete(id: string): Promise<void> {
+    await this.attendanceRepository.delete(id);
+  }
+
+  async findAvailableTimes(from: Date, to: Date): Promise<AvailableTimeDto[]> {
     const attendances = await this.attendanceRepository.findAll();
 
     const dates = eachDayOfInterval({
@@ -60,16 +66,21 @@ export class AttendanceRulesService {
         }
       }
     }
-    const groupedEntriesAttendances = Object.entries(
-      groupBy(
-        (attendance) => attendance.day,
-        Array.from(availableTimes.values()),
-      ),
+    const groupedAttendances = groupBy(
+      (attendance) => attendance.day,
+      Array.from(availableTimes.values()),
     );
 
-    return groupedEntriesAttendances.map(([day, attendancesPerDay]) => ({
-      day,
-      intervals: attendancesPerDay.map((attendance) => attendance.interval),
-    }));
+    return this.#groupAttendancesRulesPerDay(groupedAttendances);
+  }
+
+  #groupAttendancesRulesPerDay(
+    groupedAttendances: Record<string, AttendanceDay[]>,
+  ): AvailableTimeDto[] {
+    const groupedEntriesAttendances = Object.entries(groupedAttendances);
+
+    return groupedEntriesAttendances.map(([day, attendances]) =>
+      AvailableTimeDto.from(day, attendances),
+    );
   }
 }

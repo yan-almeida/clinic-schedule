@@ -8,7 +8,7 @@ export class ClinicScheduleController {
     private readonly attendanceRulesService: AttendanceRulesService,
   ) {}
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response): Promise<void> {
     const dto: CreateAttendanceRuleDto = req.body;
 
     const attendance = await this.attendanceRulesService.create(dto);
@@ -16,10 +16,18 @@ export class ClinicScheduleController {
     res.status(httpStatus.CREATED).json({ attendance });
   }
 
-  async findAll(_: Request, res: Response) {
+  async findAll(_: Request, res: Response): Promise<void> {
     const attendanceRules = await this.attendanceRulesService.findAll();
 
-    res.status(httpStatus.OK).json(attendanceRules);
+    res.json(attendanceRules);
+  }
+
+  async delete(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    await this.attendanceRulesService.delete(id);
+
+    res.sendStatus(httpStatus.NO_CONTENT);
   }
 
   async findAvailableTimes(req: Request<any, any, any, any>, res: Response) {
@@ -31,6 +39,6 @@ export class ClinicScheduleController {
         new Date(to),
       );
 
-    res.status(httpStatus.OK).json(attendanceRules);
+    res.json(attendanceRules);
   }
 }

@@ -21,6 +21,10 @@ attendanceRuleRouter.get('', (req, res) =>
   clinicScheduleController.findAll(req, res),
 );
 
+attendanceRuleRouter.delete('/:id', (req, res) =>
+  clinicScheduleController.delete(req, res),
+);
+
 attendanceRuleRouter.get('/available-times', (req, res) =>
   clinicScheduleController.findAvailableTimes(req, res),
 );
