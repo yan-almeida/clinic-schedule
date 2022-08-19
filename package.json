@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "start:dev": "dotenv -e .env -- ts-node-dev --transpile-only src/main.ts",
+    "start:dev": "dotenv -e .env -- ts-node-dev src/main.ts",
     "test": "yarn lint && yarn style:check && yarn test:unit && yarn test:functional",
     "lint": "eslint ./src ./test --ext .ts",
     "lint:fix": "eslint ./src ./test --ext .ts --fix",

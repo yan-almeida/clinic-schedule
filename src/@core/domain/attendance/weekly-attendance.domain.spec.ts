@@ -1,9 +1,11 @@
-import { WithoutDayOfWeek } from '@core/domain/attendance/errors/whitout-day-of-week.error';
+import { AttendanceDay } from '@core/domain/attendance/attendance-day.domain';
+import { WithoutDayOfWeek } from '@core/domain/attendance/errors/without-day-of-week.error';
 import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
 import { DaysOfWeek } from '@core/domain/attendance/interfaces/days-of-week.enum';
 import { Interval } from '@core/domain/attendance/interval.domain';
 import { IntervalMock } from '@core/domain/attendance/mocks/interval.mock';
 import { WeeklyAttendance } from '@core/domain/attendance/weekly-attendance.domain';
+import { format } from 'date-fns';
 
 describe('WeeklyAttendance', () => {
   it('should crete an weekly attendance in specific day by constructor', () => {
@@ -42,5 +44,31 @@ describe('WeeklyAttendance', () => {
         ),
       );
     }
+  });
+
+  it('should return an attendance day of created weekly attendace', () => {
+    const interval = IntervalMock.validInterval();
+    const now = new Date();
+
+    const specificDayAttendance = WeeklyAttendance.from(
+      [
+        DaysOfWeek.FRI,
+        DaysOfWeek.MON,
+        DaysOfWeek.SAT,
+        DaysOfWeek.SUN,
+        DaysOfWeek.THU,
+        DaysOfWeek.TUE,
+        DaysOfWeek.WED,
+      ],
+      interval,
+    );
+
+    const asAttendanceDay = specificDayAttendance.asAttendanceDay(now);
+
+    expect(asAttendanceDay).toMatchObject<AttendanceDay>({
+      day: format(now, 'MM-dd-yyyy'),
+      interval,
+    });
+    expect(specificDayAttendance.interval).toBeInstanceOf(Interval);
   });
 });

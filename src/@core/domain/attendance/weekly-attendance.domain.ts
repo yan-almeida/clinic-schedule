@@ -1,6 +1,6 @@
 import { AttendanceDay } from '@core/domain/attendance/attendance-day.domain';
 import { Attendance } from '@core/domain/attendance/attendance.domain';
-import { WithoutDayOfWeek } from '@core/domain/attendance/errors/whitout-day-of-week.error';
+import { WithoutDayOfWeek } from '@core/domain/attendance/errors/without-day-of-week.error';
 import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
 import { DaysOfWeek } from '@core/domain/attendance/interfaces/days-of-week.enum';
 import { Interval } from '@core/domain/attendance/interval.domain';

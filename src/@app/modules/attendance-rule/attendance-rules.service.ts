@@ -2,9 +2,9 @@ import { AvailableTimeDto } from '@app/modules/attendance-rule/dtos/available-ti
 import { CreateAttendanceRuleDto } from '@app/modules/attendance-rule/dtos/create-attendance-rule.dto';
 import { AttendanceDay } from '@core/domain/attendance/attendance-day.domain';
 import { Attendance } from '@core/domain/attendance/attendance.domain';
+import { AttendanceFactory } from '@core/domain/attendance/factories/attendance.factory';
 import { Interval } from '@core/domain/attendance/interval.domain';
 import { AttendanceRepository } from '@core/domain/attendance/repositories/attendance.repository';
-import { CreateAttendanceFactory } from '@infra/db/create-attendance.factory';
 import { eachDayOfInterval } from 'date-fns';
 import { groupBy } from 'ramda';
 
@@ -16,7 +16,7 @@ export class AttendanceRulesService {
 
     const interval = Interval.from(start, end);
 
-    const createAttendanceFactory = new CreateAttendanceFactory();
+    const createAttendanceFactory = new AttendanceFactory();
     const createAttendanceStrategy = createAttendanceFactory.build(type);
 
     const attendance = createAttendanceStrategy.create({
@@ -47,7 +47,7 @@ export class AttendanceRulesService {
       end: to,
     });
 
-    const createAttendanceFactory = new CreateAttendanceFactory();
+    const createAttendanceFactory = new AttendanceFactory();
 
     const availableTimes = new Set<AttendanceDay>();
 

@@ -1,6 +1,6 @@
 {
   "app": {
-    "port": 3000
+    "port": 3035
   },
   "logger": {
     "enabled": true,
@@ -8,7 +8,7 @@
   },
   "db": {
     "local": {
-      "path": "database.json"
+      "path": "database-test.json"
     }
   }
 }

@@ -1,9 +1,10 @@
+import { AttendanceDay } from '@core/domain/attendance/attendance-day.domain';
 import { DateCannotBeforeToday } from '@core/domain/attendance/errors/date-cannot-before-today.error';
 import { AttendanceType } from '@core/domain/attendance/interfaces/attendance-type.enum';
 import { Interval } from '@core/domain/attendance/interval.domain';
 import { IntervalMock } from '@core/domain/attendance/mocks/interval.mock';
 import { SpecificDateAttendance } from '@core/domain/attendance/specific-date-attendance.domain';
-import { addDays, subDays } from 'date-fns';
+import { addDays, format, subDays } from 'date-fns';
 
 describe('SpecificDateAttendance', () => {
   it('should crete an attendance in specific day by constructor', () => {
@@ -48,5 +49,20 @@ describe('SpecificDateAttendance', () => {
         new DateCannotBeforeToday('the appointment day cannot be before today'),
       );
     }
+  });
+
+  it('should return an attendance day of created weekly attendace', () => {
+    const interval = IntervalMock.validInterval();
+    const now = new Date();
+
+    const specificDayAttendance = SpecificDateAttendance.from(now, interval);
+
+    const asAttendanceDay = specificDayAttendance.asAttendanceDay(now);
+
+    expect(asAttendanceDay).toMatchObject<AttendanceDay>({
+      day: format(now, 'MM-dd-yyyy'),
+      interval,
+    });
+    expect(specificDayAttendance.interval).toBeInstanceOf(Interval);
   });
 });

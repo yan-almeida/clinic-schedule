@@ -1,8 +1,9 @@
 import { Attendance } from '@core/domain/attendance/attendance.domain';
 import { AttendanceRepository } from '@core/domain/attendance/repositories/attendance.repository';
+import config from 'config';
 import { readFile, writeFile } from 'fs/promises';
 
-const PATH = 'database.json';
+const PATH = config.get<string>('db.local.path');
 
 export class LocalAttendanceRepository implements AttendanceRepository {
   async insert(attendance: Attendance): Promise<void> {
